@@ -1,0 +1,14 @@
+body { 
+  font: 14px helvetica neue, helvetica, arial, sans-serif;
+}
+
+#cy {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-image: url(square.png); /* Путь к фоновому рисунку */
+  background-position: left bottom; /* Положение фона */
+  background-repeat: repeat; /* Повторяем фон по горизонтали */
+}
