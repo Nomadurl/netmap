@@ -1,6 +1,6 @@
 Netmap.initializers.impactUtility('ui', function() {
     
-    //Netmap button prototype
+    //Netmap button
     var NMButtonPrototype = Object.create(HTMLElement.prototype);
     NMButtonPrototype.addClass = function(className) {
         this.className += ' ' + className;
@@ -20,8 +20,30 @@ Netmap.initializers.impactUtility('ui', function() {
     var createButton = function() {
         return document.createElement('nm-button');
     };
+
+    //Tab panel
+    var createTabPanel = function(tabName, navContainer, tabContentContainer) {
+        var navItem = document.createElement('li'),
+            navLink = document.createElement('a'),
+            tabContent = document.createElement('div');
+
+        navLink.dataset.toggle = 'tab';
+        navLink.href = '#' + tabName;
+        navLink.innerHTML = tabName;
+
+        navItem.appendChild(navLink);
+        navContainer.appendChild(navItem);
+
+        tabContent.id = tabName;
+        tabContent.className = 'tab-pane fade';
+
+        tabContentContainer.appendChild(tabContent);
+
+        return tabContent;
+    };
     
     return {
         createButton: createButton,
+        createTabPanel: createTabPanel,
     };
 });

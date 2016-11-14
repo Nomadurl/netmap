@@ -73,7 +73,10 @@ var Netmap = (function (cytoscape) {
          utilities: utilities,
          initializers: {
              impactExtension: function(extensionName, module) {
-                extensions[extensionName] = module(Netmap);         
+                extensions[extensionName] = module(Netmap);
+                
+                //create extension ui
+                Netmap.utilities.ui.createTabPanel(extensionName, document.getElementById('nav-tab'), document.getElementById('tab-content')).appendChild(Netmap.utilities.ui.createButton());
              },
              impactUtility: function(utilityName, module) {
                  utilities[utilityName] = module();

@@ -8,9 +8,9 @@ nm-button {
     border-color: #4cae4c;
     border: 1px solid transparent;
     background-color: #5cb85c;
-    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    box-shadow: 0 0 6px rgba(0,0,0,0.9);
     margin: 10px;
-    transition: box-shadow .3s ease-in-out;
+    transition: box-shadow .1s ease-in-out;
 }
 nm-button:hover {
     box-shadow: none;
