@@ -1,14 +1,23 @@
 body { 
   font: 14px helvetica neue, helvetica, arial, sans-serif;
 }
-
 .canvas {
   height: 100%;
   width: 100%;
   position:fixed;
   left: 0;
   top: 0;
+  z-index: 1000;
   background-image: url(../images/square.png); /* Путь к фоновому рисунку */
   background-position: left bottom; /* Положение фона */
   background-repeat: repeat; /* Повторяем фон по горизонтали */
+}
+.extensions-panel {
+    width: 100%;
+    height: 100px;
+    position:fixed;
+    left: 0;
+    top: 0;
+    z-index: 1001;
+    background-color:white;
 }
