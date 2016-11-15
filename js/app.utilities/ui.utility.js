@@ -12,9 +12,9 @@ Netmap.initializers.impactUtility('ui', function() {
         (isActive) ? (this.addClass('active')) : (this.removeClass('active'));
     };
     NMButtonPrototype.createdCallback = function() {
-        this.addEventListener('click', function(event) {
+        /*this.addEventListener('click', function(event) {
             this.buttonActivated(true);
-        });
+        });*/
     };
     var NMButton = document.registerElement('nm-button', {prototype: NMButtonPrototype});
     var createButton = function() {

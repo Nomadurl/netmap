@@ -76,7 +76,13 @@ var Netmap = (function (cytoscape) {
                 extensions[extensionName] = module(Netmap);
                 
                 //create extension ui
-                Netmap.utilities.ui.createTabPanel(extensionName, document.getElementById('nav-tab'), document.getElementById('tab-content')).appendChild(Netmap.utilities.ui.createButton());
+                var extensionContainer = Netmap.utilities.ui.createTabPanel(extensionName, document.getElementById('nav-tab'), document.getElementById('tab-content'))/*.appendChild(Netmap.utilities.ui.createButton())*/;
+                for (var tool in extensions[extensionName].tools) {
+                    //let tool mediator know about extensions tools
+                    utilities.ToolController.toolMediator.addTool(extensions[extensionName].tools[tool]);
+                    extensionContainer.appendChild(extensions[extensionName].tools[tool].control);
+                }
+                console.log(utilities);
              },
              impactUtility: function(utilityName, module) {
                  utilities[utilityName] = module();
