@@ -20,7 +20,7 @@ var elesJson = {
   ]
 };
   
-$('#cy').cytoscape({
+$('#canvas').cytoscape({
   style: cytoscape.stylesheet()
     .selector('node')
       .css({

@@ -1,14 +1,29 @@
 body { 
   font: 14px helvetica neue, helvetica, arial, sans-serif;
 }
-
-#cy {
+.container {
+  width: 100%!important;
+  padding: 0!important;
+}
+.canvas {
   height: 100%;
   width: 100%;
-  position: absolute;
+  position:fixed;
   left: 0;
   top: 0;
+  z-index: 1000;
   background-image: url(../images/square.png); /* Путь к фоновому рисунку */
   background-position: left bottom; /* Положение фона */
   background-repeat: repeat; /* Повторяем фон по горизонтали */
+}
+.extensions-panel {
+    width: 100%;
+    position:fixed;
+    left: 0;
+    top: 0;
+    z-index: 1001;
+    background-color:white;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+       -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;
 }
