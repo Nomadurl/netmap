@@ -6,7 +6,7 @@ Netmap.initializers.impactExtension('Edge', function(Netmap) {
 
     //start adding custom functionality
     var tools = {
-        addEdge: new toolsController.Tool('AddEdgeTool', new ui.createButton()),
+        //addEdge: new toolsController.Tool('AddEdgeTool', new ui.createButton()),
     };
     
     return {

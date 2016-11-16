@@ -24,7 +24,8 @@ var Netmap = (function (cytoscape) {
             { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }*/
           ]
         };
-    $('#canvas').cytoscape({
+    var cyto = cytoscape({
+            container: document.getElementById('canvas'),
           style: cytoscape.stylesheet()
             .selector('node')
               .css({
@@ -88,5 +89,6 @@ var Netmap = (function (cytoscape) {
                  utilities[utilityName] = module();
              },
          },
+         cyto: cyto,
      };
 })(cytoscape);

@@ -18,17 +18,17 @@ Netmap.initializers.impactUtility('ToolController', function() {
         }
     },
     ToolMediator.prototype.toolDeactivated = function(deactivatedTool) {
-        console.log('Tool ' + deactivatedTool.toolName + ' deactivated!');
+        //console.log('Tool ' + deactivatedTool.toolName + ' deactivated!');
     };
 
     var toolMediatorSingleton = new ToolMediator();
 
     //Tools
-    var Tool = function(toolName, toolControl, toolMediator) {
+    var Tool = function(toolName, toolControl, toolAction) {
         this.toolName = toolName;
         this.control = toolControl;
         this.toolStatus = false;
-        this.toolMediator = toolMediator;
+        this.toolAction = toolAction;
 
         this.control.tool = this;
         this.control.addEventListener('click', this.changeToolStatus, false);
@@ -36,10 +36,14 @@ Netmap.initializers.impactUtility('ToolController', function() {
     Tool.prototype.deactivateTool = function() {
         this.toolStatus = false;
         this.control.buttonActivated(false);
+        Netmap.cyto.off('click', this.toolAction);
+        console.log("Tool " + this.toolName + " deactivated!");
     };
     Tool.prototype.activateTool = function() {
         this.toolStatus = true;
         this.control.buttonActivated(true);
+        Netmap.cyto.on('click', {}, this.toolAction);
+        console.log("Tool " + this.toolName + " activated!");
     };
     Tool.prototype.changeToolStatus = function(event) {
         if (this.tool.toolStatus) {
