@@ -24,7 +24,8 @@ Netmap.initializers.impactUtility('ToolController', function() {
     var toolMediatorSingleton = new ToolMediator();
 
     //Tools
-    var Tool = function(toolName, toolControl, toolAction) {
+    //Basic tool class (governor)
+    var BasicTool = function(toolName, toolControl, toolAction) {
         this.toolName = toolName;
         this.control = toolControl;
         this.toolStatus = false;
@@ -33,51 +34,57 @@ Netmap.initializers.impactUtility('ToolController', function() {
         this.control.tool = this;
         this.control.addEventListener('click', this.changeToolStatus, false);
     };
-    Tool.prototype.deactivateTool = function() {
-        this.toolStatus = false;
-        this.control.buttonActivated(false);
-        Netmap.cyto.off('click', this.toolAction);
-        console.log("Tool " + this.toolName + " deactivated!");
-    };
-    Tool.prototype.activateTool = function() {
+    BasicTool.prototype.activateTool = function() {
         this.toolStatus = true;
         this.control.buttonActivated(true);
-        Netmap.cyto.on('click', {}, this.toolAction);
-        console.log("Tool " + this.toolName + " activated!");
     };
-    Tool.prototype.changeToolStatus = function(event) {
+    BasicTool.prototype.deactivateTool = function() {
+        this.toolStatus = false;
+        this.control.buttonActivated(false);
+    };
+    BasicTool.prototype.changeToolStatus = function() {
         if (this.tool.toolStatus) {
             this.tool.deactivateTool();
             toolMediatorSingleton.toolDeactivated(this.tool);
-            //configuration.toolsContainer.toolsMediator.toolDeactivated();
         } else {
             toolMediatorSingleton.toolActivated(this.tool);
-            //configuration.toolsContainer.toolsMediator.toolActivated(tool);
             this.tool.activateTool();
         }
     };
-    
-    /*var tools = {},
-        toolActivated = function(activatedTool) {
-            for (var tool in tools) {
-                if (tools[tool].toolName !== activatedTool.toolName) {
-                    tools[tool].deactivateTool();
-                }
-            }
-        },
-        toolDeactivated = function(deactivatedTool) {
-            
-        },
-        Tool = function(toolName, toolControl) {
-            this.toolName = toolName;
-            this.control = toolControl;
-            this.toolStatus = false;
-            this.control.addEventListener('click', this.changeToolStatus, false);
-        };*/
-    
+
+    //Simple tool (inherited form BasicTool)
+    var SimpleTool = function(toolName, toolControl, toolAction) {
+        BasicTool.apply(this, arguments);
+    };
+    //inheritanse and save child constructor
+    SimpleTool.prototype = Object.create(BasicTool.prototype);
+    SimpleTool.prototype.constructor = SimpleTool;
+    //override activation
+    SimpleTool.prototype.activateTool = function() {
+        BasicTool.prototype.activateTool.apply(this);
+        this.toolAction();
+    };
+
+    //Canvas tool (inherited form BasicTool)
+    var CanvasTool = function(toolName, toolControl, toolControl) {
+        BasicTool.apply(this, arguments);
+    };
+    //inheritanse and save child constructor
+    CanvasTool.prototype = Object.create(BasicTool.prototype);
+    CanvasTool.prototype.constructor = CanvasTool;
+    //override activation and deactivation
+    CanvasTool.prototype.activateTool = function() {
+        BasicTool.prototype.activateTool.apply(this);
+        Netmap.cyto.on('click', {}, this.toolAction);
+    };
+    CanvasTool.prototype.deactivateTool = function() {
+        BasicTool.prototype.deactivateTool.apply(this);
+        Netmap.cyto.off('click', this.toolAction);
+    };    
     
     return {
-        Tool: Tool,
+        SimpleTool: SimpleTool,
+        CanvasTool: CanvasTool,
         toolMediator: toolMediatorSingleton,
     };
 });
