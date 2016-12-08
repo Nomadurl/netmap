@@ -66,7 +66,7 @@ Netmap.initializers.impactUtility('ToolController', function() {
     };
 
     //Canvas tool (inherited form BasicTool)
-    var CanvasTool = function(toolName, toolControl, toolControl) {
+    var CanvasTool = function(toolName, toolControl, toolAction) {
         BasicTool.apply(this, arguments);
     };
     //inheritanse and save child constructor
@@ -80,11 +80,27 @@ Netmap.initializers.impactUtility('ToolController', function() {
     CanvasTool.prototype.deactivateTool = function() {
         BasicTool.prototype.deactivateTool.apply(this);
         Netmap.cyto.off('click', this.toolAction);
-    };    
+    };
+
+    //Node clicker tool (inherited from BasicTool)
+    var NodeTool = function(toolName, toolControl, toolAction) {
+        BasicTool.apply(this, arguments);
+    };  
+    NodeTool.prototype = Object.create(BasicTool.prototype);
+    NodeTool.prototype.constructor = NodeTool;
+    NodeTool.prototype.activateTool = function() {
+        BasicTool.prototype.activateTool.apply(this);
+        Netmap.cyto.on('click', 'node', this.toolAction);
+    };
+    NodeTool.prototype.deactivateTool = function() {
+        BasicTool.prototype.deactivateTool.apply(this);
+        Netmap.cyto.off('click', 'node', this.toolAction);
+    };
     
     return {
         SimpleTool: SimpleTool,
         CanvasTool: CanvasTool,
+        NodeTool: NodeTool,
         toolMediator: toolMediatorSingleton,
     };
 });
