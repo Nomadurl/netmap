@@ -68,8 +68,19 @@ var Netmap = (function (cytoscape) {
           }
         });
     /*----------------------------------------------*/
+    /*--------------Core objects------------*/
+    var NetmapException = function(message) {
+      this.message = message;
+      this.name = 'Netmap exception';
+    };
+    /*--------------------------------------*/
     
      return {
+         netmapClasses: {
+            coreClasses: {
+              NetmapException: NetmapException,
+            },
+         },
          extensions: extensions,
          utilities: utilities,
          initializers: {
@@ -86,7 +97,7 @@ var Netmap = (function (cytoscape) {
                 console.log(utilities);
              },
              impactUtility: function(utilityName, module) {
-                 utilities[utilityName] = module();
+                 utilities[utilityName] = module(Netmap);
              },
          },
          cyto: cyto,

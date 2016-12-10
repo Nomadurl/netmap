@@ -1,4 +1,7 @@
-Netmap.initializers.impactUtility('ToolController', function() {
+Netmap.initializers.impactUtility('ToolController', function(Netmap) {
+
+    /*includes*/
+    var InheritanceUtility = Netmap.utilities.InheritanceUtility;
     
     // Tool mediator
     var ToolMediator = function() {
@@ -56,9 +59,8 @@ Netmap.initializers.impactUtility('ToolController', function() {
     var SimpleTool = function(toolName, toolControl, toolAction) {
         BasicTool.apply(this, arguments);
     };
-    //inheritanse and save child constructor
-    SimpleTool.prototype = Object.create(BasicTool.prototype);
-    SimpleTool.prototype.constructor = SimpleTool;
+    //inheritanse
+    InheritanceUtility.inherit(BasicTool, SimpleTool);
     //override activation
     SimpleTool.prototype.activateTool = function() {
         BasicTool.prototype.activateTool.apply(this);
@@ -69,9 +71,8 @@ Netmap.initializers.impactUtility('ToolController', function() {
     var CanvasTool = function(toolName, toolControl, toolAction) {
         BasicTool.apply(this, arguments);
     };
-    //inheritanse and save child constructor
-    CanvasTool.prototype = Object.create(BasicTool.prototype);
-    CanvasTool.prototype.constructor = CanvasTool;
+    //inheritanse
+    InheritanceUtility.inherit(BasicTool, CanvasTool);
     //override activation and deactivation
     CanvasTool.prototype.activateTool = function() {
         BasicTool.prototype.activateTool.apply(this);
@@ -85,9 +86,8 @@ Netmap.initializers.impactUtility('ToolController', function() {
     //Node clicker tool (inherited from BasicTool)
     var NodeTool = function(toolName, toolControl, toolAction) {
         BasicTool.apply(this, arguments);
-    };  
-    NodeTool.prototype = Object.create(BasicTool.prototype);
-    NodeTool.prototype.constructor = NodeTool;
+    }; 
+    InheritanceUtility.inherit(BasicTool, NodeTool);
     NodeTool.prototype.activateTool = function() {
         BasicTool.prototype.activateTool.apply(this);
         Netmap.cyto.on('click', 'node', this.toolAction);
@@ -98,6 +98,7 @@ Netmap.initializers.impactUtility('ToolController', function() {
     };
     
     return {
+        BasicTool: BasicTool,
         SimpleTool: SimpleTool,
         CanvasTool: CanvasTool,
         NodeTool: NodeTool,

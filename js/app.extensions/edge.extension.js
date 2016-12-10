@@ -14,7 +14,11 @@ Netmap.initializers.impactExtension('Edge', function(Netmap) {
         addEdge: new toolsController.NodeTool('AddEdge', ui.createButton(), function(event) {
             nodesCounter.push(this);
             if (nodesCounter.length === 2) {
-                console.log(nodesCounter);
+                Netmap.cyto.add({
+                    group: "edges",
+                    data: {source: nodesCounter[0].data('id'), target: nodesCounter[1].data('id')},
+                });
+                //console.log(nodesCounter);
                 nodesCounter = [];
             }
         }),
