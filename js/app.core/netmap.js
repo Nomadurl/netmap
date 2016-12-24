@@ -24,7 +24,8 @@ var Netmap = (function (cytoscape) {
             { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }*/
           ]
         };
-    $('#canvas').cytoscape({
+    var cyto = cytoscape({
+            container: document.getElementById('canvas'),
           style: cytoscape.stylesheet()
             .selector('node')
               .css({
@@ -67,8 +68,19 @@ var Netmap = (function (cytoscape) {
           }
         });
     /*----------------------------------------------*/
+    /*--------------Core objects------------*/
+    var NetmapException = function(message) {
+      this.message = message;
+      this.name = 'Netmap exception';
+    };
+    /*--------------------------------------*/
     
      return {
+         netmapClasses: {
+            coreClasses: {
+              NetmapException: NetmapException,
+            },
+         },
          extensions: extensions,
          utilities: utilities,
          initializers: {
@@ -76,11 +88,18 @@ var Netmap = (function (cytoscape) {
                 extensions[extensionName] = module(Netmap);
                 
                 //create extension ui
-                Netmap.utilities.ui.createTabPanel(extensionName, document.getElementById('nav-tab'), document.getElementById('tab-content')).appendChild(Netmap.utilities.ui.createButton());
+                var extensionContainer = Netmap.utilities.ui.createTabPanel(extensionName, document.getElementById('nav-tab'), document.getElementById('tab-content'))/*.appendChild(Netmap.utilities.ui.createButton())*/;
+                for (var tool in extensions[extensionName].tools) {
+                    //let tool mediator know about extensions tools
+                    utilities.ToolController.toolMediator.addTool(extensions[extensionName].tools[tool]);
+                    extensionContainer.appendChild(extensions[extensionName].tools[tool].control);
+                }
+                console.log(utilities);
              },
              impactUtility: function(utilityName, module) {
-                 utilities[utilityName] = module();
+                 utilities[utilityName] = module(Netmap);
              },
          },
+         cyto: cyto,
      };
 })(cytoscape);

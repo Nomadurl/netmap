@@ -12,13 +12,43 @@ Netmap.initializers.impactUtility('ui', function() {
         (isActive) ? (this.addClass('active')) : (this.removeClass('active'));
     };
     NMButtonPrototype.createdCallback = function() {
-        this.addEventListener('click', function(event) {
+        /*this.addEventListener('click', function(event) {
             this.buttonActivated(true);
-        });
+        });*/
     };
     var NMButton = document.registerElement('nm-button', {prototype: NMButtonPrototype});
     var createButton = function() {
         return document.createElement('nm-button');
+    };
+    
+    //modal window
+    var NMModalWindowPrototype = Object.create(HTMLElement.prototype);
+    var NMModalWindow = document.registerElement('nm-modal-window', {prototype: NMModalWindowPrototype});
+    //modal overlay
+    var NMModalOverlayPrototype = Object.create(HTMLElement.prototype);
+    var NMModalOverlay = document.registerElement('nm-modal-overlay', {prototype: NMModalOverlayPrototype});
+    //close button
+    var NMCloseModalPrototype = Object.create(HTMLElement.prototype);
+    NMCloseModalPrototype.modalWindow = undefined;
+    NMCloseModalPrototype.modalOverlay = undefined;
+    NMCloseModalPrototype.createdCallback = function() {
+        this.addEventListener('click', function(event) {
+            this.modalOverlay.remove();
+            this.modalWindow.remove();
+        });
+    };
+    //NMCloseModalPrototype.addEventListener('click', this.changeToolStatus, false);
+    var CloseModalButton = document.registerElement('nm-close-modal', {prototype: NMCloseModalPrototype});
+    var createModalWindow = function() {
+        var modalWindow = document.createElement('nm-modal-window');
+        var closeModalButton = document.createElement('nm-close-modal');
+        var modalOverlay = document.createElement('nm-modal-overlay');
+        closeModalButton.modalWindow = modalWindow;
+        closeModalButton.modalOverlay = modalOverlay;
+        modalWindow.appendChild(closeModalButton);
+        console.dir(closeModalButton);
+        document.body.appendChild(modalWindow);
+        document.body.appendChild(modalOverlay);
     };
 
     //Tab panel
@@ -45,5 +75,6 @@ Netmap.initializers.impactUtility('ui', function() {
     return {
         createButton: createButton,
         createTabPanel: createTabPanel,
+        createModalWindow: createModalWindow,
     };
 });
